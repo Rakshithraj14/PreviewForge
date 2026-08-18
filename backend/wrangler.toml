@@ -1,0 +1,33 @@
+name = "previewforge-api"
+main = "src/index.ts"
+compatibility_date = "2025-01-09"
+compatibility_flags = ["nodejs_compat"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "previewforge"
+database_id = "REPLACE_WITH_D1_DATABASE_ID" # `wrangler d1 create previewforge`
+migrations_dir = "migrations"
+
+[[kv_namespaces]]
+binding = "CACHE"
+id = "REPLACE_WITH_KV_NAMESPACE_ID" # `wrangler kv namespace create CACHE`
+
+# Cloudflare's native Rate Limiting binding (fixed window, per-key). Syntax is
+# still under `unsafe.bindings` as of early-2026 docs — check
+# https://developers.cloudflare.com/workers/runtime-apis/bindings/rate-limit/
+# in case it has graduated to a first-class `[[ratelimits]]` block by the time
+# this deploys, and update accordingly.
+[[unsafe.bindings]]
+name = "RATE_LIMITER"
+type = "ratelimit"
+namespace_id = "1001"
+simple = { limit = 20, period = 60 } # keep in sync with RATE_LIMIT_PER_MINUTE below
+
+[vars]
+ALLOWED_ORIGIN = "http://localhost:5173"
+CACHE_TTL_SECONDS = "2700"
+RATE_LIMIT_PER_MINUTE = "20"
+
+# No secrets needed: D1, KV, and the Rate Limiter are all native bindings
+# configured above, not credentialed external services.
