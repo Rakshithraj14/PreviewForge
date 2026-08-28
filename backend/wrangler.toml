@@ -6,12 +6,12 @@ compatibility_flags = ["nodejs_compat"]
 [[d1_databases]]
 binding = "DB"
 database_name = "previewforge"
-database_id = "REPLACE_WITH_D1_DATABASE_ID" # `wrangler d1 create previewforge`
+database_id = "3c2c079d-c248-4b35-8bfc-ebd7f7ca3353"
 migrations_dir = "migrations"
 
 [[kv_namespaces]]
 binding = "CACHE"
-id = "REPLACE_WITH_KV_NAMESPACE_ID" # `wrangler kv namespace create CACHE`
+id = "b9f9543d5178448c857bf573a3022cf4"
 
 # Cloudflare's native Rate Limiting binding (fixed window, per-key). Syntax is
 # still under `unsafe.bindings` as of early-2026 docs — check
