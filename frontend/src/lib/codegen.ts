@@ -156,12 +156,46 @@ function generateSvelte(d: CodegenInput): string {
 </svelte:head>`;
 }
 
+function generateAngular(d: CodegenInput): string {
+  const t = escapeJs(d.title);
+  const desc = escapeJs(d.description);
+  const img = escapeJs(d.image);
+  const url = escapeJs(d.url);
+
+  return `import { Component, OnInit } from "@angular/core";
+import { Meta, Title } from "@angular/platform-browser";
+
+@Component({ selector: "app-seo-tags", template: "" })
+export class SeoTagsComponent implements OnInit {
+  constructor(private titleService: Title, private meta: Meta) {}
+
+  ngOnInit(): void {
+    this.titleService.setTitle("${t}");
+    this.meta.addTags([
+      { name: "title", content: "${t}" },
+      { name: "description", content: "${desc}" },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "${url}" },
+      { property: "og:title", content: "${t}" },
+      { property: "og:description", content: "${desc}" },
+      { property: "og:image", content: "${img}" },
+      { property: "twitter:card", content: "summary_large_image" },
+      { property: "twitter:url", content: "${url}" },
+      { property: "twitter:title", content: "${t}" },
+      { property: "twitter:description", content: "${desc}" },
+      { property: "twitter:image", content: "${img}" },
+    ]);
+  }
+}`;
+}
+
 const GENERATORS: Record<CodegenTarget, (d: CodegenInput) => string> = {
   html: generateHtml,
   react: generateReact,
   nextjs: generateNextjs,
   vue: generateVue,
   svelte: generateSvelte,
+  angular: generateAngular,
 };
 
 export const CODEGEN_TARGETS: { id: CodegenTarget; label: string }[] = [
@@ -170,6 +204,7 @@ export const CODEGEN_TARGETS: { id: CodegenTarget; label: string }[] = [
   { id: "nextjs", label: "Next.js" },
   { id: "vue", label: "Vue" },
   { id: "svelte", label: "Svelte" },
+  { id: "angular", label: "Angular" },
 ];
 
 export function generate(target: CodegenTarget, data: CodegenInput): string {
