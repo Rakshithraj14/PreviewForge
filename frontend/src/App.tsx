@@ -155,7 +155,7 @@ export default function App() {
             </a>
             <a
               className="font-body-sm text-body-sm text-on-surface-variant hover:text-primary"
-              href="https://github.com"
+              href="https://github.com/Rakshithraj14/PreviewForge"
               target="_blank"
               rel="noreferrer"
             >

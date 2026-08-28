@@ -1,0 +1,15 @@
+# PreviewForge
+
+PreviewForge is a free, anonymous social-media preview checker. Paste any public URL and it fetches the page, extracts its Open Graph and Twitter Card metadata (title, description, image, site name, favicon), and shows how the page will render as a card on Twitter, LinkedIn, Facebook, and Telegram. Fields are editable in place, and the result can be exported as ready-to-paste meta tags for HTML, React, Next.js, Vue, Svelte, or Angular.
+
+Live app: https://previewforgeui.ravanasura1422.workers.dev
+
+## API
+
+Agents that want metadata directly, without driving the UI, can call the public JSON API:
+
+`POST https://previewforge.ravanasura1422.workers.dev/api/parse`
+Body: `{"url": "https://example.com", "force": false}`
+Response: `{"url", "title", "description", "image", "siteName", "favicon", "source": "cache"|"db"|"origin", "fetchedAt"}`
+
+No authentication required. Requests are rate-limited per IP. Set `force: true` to bypass the cache and re-fetch the origin page.
