@@ -73,7 +73,7 @@ export function EditorPanel({
             <ModifiedBadge show={title !== originalTitle} />
           </div>
           <input
-            className="w-full bg-surface-dim border border-outline-variant rounded-lg px-3 py-2 text-on-surface focus:border-primary focus:ring-2 focus:ring-primary/30 outline-none transition-all duration-200 font-body-base text-body-base hover:border-outline"
+            className="w-full bg-surface-dim border border-outline-variant rounded-lg px-3 py-2 text-on-surface focus:border-primary focus:ring-4 focus:ring-primary/20 outline-none transition-all duration-200 font-body-base text-body-base hover:border-outline"
             type="text"
             value={title}
             onChange={(e) => onTitleChange(e.target.value)}
@@ -96,7 +96,7 @@ export function EditorPanel({
             <ModifiedBadge show={description !== originalDescription} />
           </div>
           <textarea
-            className="w-full bg-surface-dim border border-outline-variant rounded-lg px-3 py-2 text-on-surface focus:border-primary focus:ring-2 focus:ring-primary/30 outline-none transition-all duration-200 font-body-base text-body-base resize-none hover:border-outline"
+            className="w-full bg-surface-dim border border-outline-variant rounded-lg px-3 py-2 text-on-surface focus:border-primary focus:ring-4 focus:ring-primary/20 outline-none transition-all duration-200 font-body-base text-body-base resize-none hover:border-outline"
             rows={3}
             value={description}
             onChange={(e) => onDescriptionChange(e.target.value)}
@@ -121,7 +121,7 @@ export function EditorPanel({
             <ModifiedBadge show={image !== originalImage} />
           </div>
           <input
-            className="w-full bg-surface-dim border border-outline-variant rounded-lg px-3 py-2 text-on-surface focus:border-primary focus:ring-2 focus:ring-primary/30 outline-none transition-all duration-200 font-body-sm text-body-sm hover:border-outline"
+            className="w-full bg-surface-dim border border-outline-variant rounded-lg px-3 py-2 text-on-surface focus:border-primary focus:ring-4 focus:ring-primary/20 outline-none transition-all duration-200 font-body-sm text-body-sm hover:border-outline"
             type="text"
             placeholder="https://example.com/assets/og-image.jpg"
             value={image}

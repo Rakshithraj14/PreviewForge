@@ -28,7 +28,7 @@ export function Hero({ url, onUrlChange, onSubmit, isParsing, error }: HeroProps
         }}
       >
         <div className="absolute -inset-1 bg-gradient-to-r from-primary/30 to-secondary/30 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200" />
-        <div className="relative flex flex-col sm:flex-row w-full bg-surface-dim border border-outline-variant rounded-xl p-1.5 focus-within:border-primary/50 focus-within:ring-2 focus-within:ring-primary/50 transition-all duration-300 shadow-xl shadow-black/50">
+        <div className="relative flex flex-col sm:flex-row w-full bg-surface-dim border border-outline-variant rounded-xl p-1.5 focus-within:border-primary focus-within:ring-4 focus-within:ring-primary/20 transition-all duration-300 shadow-xl shadow-black/50">
           <div className="flex items-center pl-4 pr-2 text-outline">
             <span className="material-symbols-outlined">link</span>
           </div>
