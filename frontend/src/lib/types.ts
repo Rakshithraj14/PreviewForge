@@ -7,5 +7,5 @@ export interface PreviewMeta {
   favicon: string | null;
 }
 
-export type Platform = "twitter" | "linkedin" | "facebook" | "telegram" | "pinterest";
+export type Platform = "twitter" | "linkedin" | "facebook" | "telegram";
 export type CodegenTarget = "html" | "react" | "nextjs" | "vue" | "svelte";

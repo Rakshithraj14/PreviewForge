@@ -1,13 +1,12 @@
 import type { Platform } from "../../lib/types";
 import { SocialCard } from "./SocialCard";
 
-const PLATFORMS: Platform[] = ["twitter", "linkedin", "facebook", "telegram", "pinterest"];
+const PLATFORMS: Platform[] = ["twitter", "linkedin", "facebook", "telegram"];
 const PLATFORM_LABELS: Record<Platform, string> = {
   twitter: "Twitter",
   linkedin: "LinkedIn",
   facebook: "Facebook",
   telegram: "Telegram",
-  pinterest: "Pinterest",
 };
 
 interface LivePreviewPanelProps {
