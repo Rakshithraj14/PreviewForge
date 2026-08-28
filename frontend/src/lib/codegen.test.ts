@@ -11,7 +11,7 @@ const input: CodegenInput = {
 
 describe("generate", () => {
   it("produces distinct output containing the core fields for each target", () => {
-    for (const target of ["html", "react", "nextjs", "vue", "svelte"] as const) {
+    for (const target of ["html", "react", "nextjs", "vue", "svelte", "angular"] as const) {
       const out = generate(target, input);
       expect(out).toContain(input.description);
       expect(out).toContain(input.url);

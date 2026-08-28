@@ -8,4 +8,4 @@ export interface PreviewMeta {
 }
 
 export type Platform = "twitter" | "linkedin" | "facebook" | "telegram";
-export type CodegenTarget = "html" | "react" | "nextjs" | "vue" | "svelte";
+export type CodegenTarget = "html" | "react" | "nextjs" | "vue" | "svelte" | "angular";

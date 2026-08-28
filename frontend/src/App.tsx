@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Hero } from "./components/Hero";
 import { LivePreviewPanel } from "./components/LivePreviewPanel";
 import { EditorPanel } from "./components/EditorPanel";
@@ -22,16 +22,46 @@ function toDraft(p: ParseResponse): Draft {
   };
 }
 
+const STORAGE_KEY = "previewforge:state";
+
+interface PersistedState {
+  urlInput: string;
+  parsed: ParseResponse | null;
+  draft: Draft | null;
+  activePlatform: Platform;
+  activeTarget: CodegenTarget;
+}
+
+function loadPersisted(): Partial<PersistedState> {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : {};
+  } catch {
+    return {};
+  }
+}
+
+const persisted = loadPersisted();
+
 export default function App() {
-  const [urlInput, setUrlInput] = useState("");
-  const [parsed, setParsed] = useState<ParseResponse | null>(null);
-  const [draft, setDraft] = useState<Draft | null>(null);
-  const [activePlatform, setActivePlatform] = useState<Platform>("twitter");
-  const [activeTarget, setActiveTarget] = useState<CodegenTarget>("html");
+  const [urlInput, setUrlInput] = useState(persisted.urlInput ?? "");
+  const [parsed, setParsed] = useState<ParseResponse | null>(persisted.parsed ?? null);
+  const [draft, setDraft] = useState<Draft | null>(persisted.draft ?? null);
+  const [activePlatform, setActivePlatform] = useState<Platform>(persisted.activePlatform ?? "twitter");
+  const [activeTarget, setActiveTarget] = useState<CodegenTarget>(persisted.activeTarget ?? "html");
   const [status, setStatus] = useState<"idle" | "parsing" | "refreshing" | "error">("idle");
   const [error, setError] = useState<string | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [generatedCode, setGeneratedCode] = useState("");
+
+  useEffect(() => {
+    try {
+      const state: PersistedState = { urlInput, parsed, draft, activePlatform, activeTarget };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch {
+      // localStorage unavailable (private browsing, quota) - state just won't persist
+    }
+  }, [urlInput, parsed, draft, activePlatform, activeTarget]);
 
   async function runParse(target: string, force: boolean) {
     setStatus(force ? "refreshing" : "parsing");
