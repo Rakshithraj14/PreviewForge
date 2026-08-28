@@ -35,7 +35,7 @@ export function Hero({ url, onUrlChange, onSubmit, isParsing, error }: HeroProps
           <input
             className="flex-1 min-w-0 bg-transparent border-none text-on-surface focus:ring-0 font-body-base text-body-base placeholder:text-outline-variant py-2"
             placeholder="https://your-website.com"
-            type="url"
+            type="text"
             value={url}
             onChange={(e) => onUrlChange(e.target.value)}
             required

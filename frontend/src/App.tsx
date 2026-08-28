@@ -3,7 +3,7 @@ import { Hero } from "./components/Hero";
 import { LivePreviewPanel } from "./components/LivePreviewPanel";
 import { EditorPanel } from "./components/EditorPanel";
 import { GenerateStrip } from "./components/GenerateStrip";
-import { CodeModal } from "./components/CodeModal";
+import { CodePanel } from "./components/CodePanel";
 import { parseUrl, ApiError, type ParseResponse } from "./lib/api";
 import { generate } from "./lib/codegen";
 import type { Platform, CodegenTarget } from "./lib/types";
@@ -51,8 +51,6 @@ export default function App() {
   const [activeTarget, setActiveTarget] = useState<CodegenTarget>(persisted.activeTarget ?? "html");
   const [status, setStatus] = useState<"idle" | "parsing" | "refreshing" | "error">("idle");
   const [error, setError] = useState<string | null>(null);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [generatedCode, setGeneratedCode] = useState("");
 
   useEffect(() => {
     try {
@@ -78,8 +76,10 @@ export default function App() {
   }
 
   const handleParse = () => {
-    if (!urlInput.trim()) return;
-    void runParse(urlInput.trim(), false);
+    const trimmed = urlInput.trim();
+    if (!trimmed) return;
+    const withScheme = /^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`;
+    void runParse(withScheme, false);
   };
 
   const handleRefresh = () => {
@@ -87,20 +87,17 @@ export default function App() {
     void runParse(parsed.url, true);
   };
 
-  const handleGenerate = () => {
-    if (!draft || !parsed) return;
-    const code = generate(activeTarget, {
-      title: draft.title,
-      description: draft.description,
-      image: draft.image,
-      url: parsed.url,
-      siteName: parsed.siteName ?? undefined,
-    });
-    setGeneratedCode(code);
-    setModalOpen(true);
-  };
-
   const hasData = draft !== null && parsed !== null;
+
+  const generatedCode = hasData
+    ? generate(activeTarget, {
+        title: draft.title,
+        description: draft.description,
+        image: draft.image,
+        url: parsed.url,
+        siteName: parsed.siteName ?? undefined,
+      })
+    : "";
 
   return (
     <main className="relative overflow-y-auto min-h-screen">
@@ -140,12 +137,8 @@ export default function App() {
           />
         </div>
 
-        <GenerateStrip
-          target={activeTarget}
-          onTargetChange={setActiveTarget}
-          onGenerate={handleGenerate}
-          disabled={!hasData}
-        />
+        <GenerateStrip target={activeTarget} onTargetChange={setActiveTarget} />
+        <CodePanel code={generatedCode} />
       </div>
 
       <footer className="w-full py-6 border-t border-outline-variant/30 mt-16">
@@ -171,8 +164,6 @@ export default function App() {
           </div>
         </div>
       </footer>
-
-      <CodeModal open={modalOpen} code={generatedCode} onClose={() => setModalOpen(false)} />
     </main>
   );
 }
