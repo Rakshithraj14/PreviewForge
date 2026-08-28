@@ -21,13 +21,14 @@ type Bindings = {
 
 const app = new Hono<{ Bindings: Bindings }>();
 
-app.use("/api/*", (c, next) =>
-  cors({
-    origin: c.env.ALLOWED_ORIGIN,
+app.use("/api/*", (c, next) => {
+  const allowedOrigins = c.env.ALLOWED_ORIGIN.split(",").map((o) => o.trim());
+  return cors({
+    origin: (origin) => (allowedOrigins.includes(origin) ? origin : undefined),
     allowMethods: ["GET", "POST", "OPTIONS"],
     allowHeaders: ["Content-Type"],
-  })(c, next)
-);
+  })(c, next);
+});
 
 app.get("/", (c) => c.json({ message: "Hello from the backend!" }));
 
